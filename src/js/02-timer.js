@@ -20,6 +20,7 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
+
   onClose(selectedDates) {
     if (selectedDates[0] > new Date()) {
       startBtn.disabled = false;
@@ -38,21 +39,21 @@ const options = {
 
     this.isActive = true;
     this.timeId = setInterval(() => {
-        const differenceTime = selectedDate - Date.now();
-        if (differenceTime <= 0) {
-            clearInterval(this.timeId);
-            return;
-        }
+      const differenceTime = selectedDate - Date.now();
+      if (differenceTime <= 0) {
+        Notiflix.Notify.success('TIME OVER :)');
+        clearInterval(this.timeId);
+        this.isActive = false;
+        return;
+      }
       const { days, hours, minutes, seconds } = convertMs(differenceTime);
-        console.log(convertMs(differenceTime));
-        dayEl.textContent = `${days}`;
-        hourEl.textContent = `${hours}`;
-        minuteEl.textContent = `${minutes}`;
-        secondEl.textContent = `${seconds}`;
-        
+      console.log(convertMs(differenceTime));
+      dayEl.textContent = `${days}`;
+      hourEl.textContent = `${hours}`;
+      minuteEl.textContent = `${minutes}`;
+      secondEl.textContent = `${seconds}`;
     }, 1000);
   },
-
 };
 
 flatpickr(inputEl, options);
@@ -82,7 +83,4 @@ function convertMs(ms) {
   );
 
   return { days, hours, minutes, seconds };
-};
-
-
-
+}
